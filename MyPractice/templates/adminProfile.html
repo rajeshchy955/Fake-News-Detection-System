@@ -1,0 +1,94 @@
+{% extends 'Adminlayout.html' %}
+
+{% block title %} Admin Profile {% endblock %}
+
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='adminProfile.css') }}">
+
+<section class="main_sec" style="padding: 0 1.5em;">
+    {% if message %}
+    <div class="alert alert-success alert-dismissable mt-4"  role="alert" style="display: flex; justify-content: space-between; width: 100%;">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">X</span>
+        </button>
+    </div>
+    {% endif %}
+    <h2 class="modal-title" style="font-size: 1.5em;"><b>Profile Information</b></h2>
+    <div class="main_containt">
+        {% if admin_data %}
+        <div class="admin_profile_top">
+            {% for item in admin_data %}
+            <img src="{{ url_for('static', filename='Images/' + item.profile) }}" class="card-img-top admin-profile" alt="You haven't uploaded your profile yet">
+            <h3 class="admin-name modal-title"><b>{{item.username}}</b> </h3>
+            <p class="admin-position"><i>Admin</i></p>
+            {% endfor %}
+        </div>
+        <div class="admin_profile_bottom">
+            <div class="admin-functionality">
+                <h2 class="modal-title"><b>Admin functionality</b></h2>
+                <ul class="fun_list">
+                    <li> Add News</li>
+                    <li> Edit or Update News</li>
+                    <li> Delete news</li>
+                    <li> Access to the database</li>
+                </ul>
+            </div>
+            <div class="update-admin">
+                {% for item in admin_data %}
+                <h2 class="modal-title"><b>Username</b></h2>
+                <p>{{ item.username }}</p>
+                <h2 class="modal-title"><b>Contact</b></h2>
+                <p>{{ item.email }}</p>
+                <p>{{ item.phone_num }}</p>
+                <button class="btn btn-warning" data-dismiss="modal" style="margin-top: 10px;" data-toggle="modal" data-target="#modalEdit{{item.id}}">Update the Information</button>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Pop up edit -->
+        <div class="update-admin">
+            {% for item in admin_data %}
+            <div id="modalEdit{{item.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit or Update Admin Information</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/adminProfile" method="POST">
+                                <div class="form-group">
+                                    <input type="hidden" name="id" value="{{ item.id }}"> <!-- Corrected here -->
+                                    <label>Username</label>
+                                    <input type="text" class="form-control mb-2" name="username" value="{{ item.username }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control mb-2" name="email" value="{{ item.email }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control mb-2" name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone num</label>
+                                    <input type="text" class="form-control mb-2" name="phone_num" value="{{ item.phone_num }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Upload profile</label>
+                                    <input type="file" class="form-control mb-2" name="profile" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="addNewsBtn" style="background-color: rgb(46, 129, 239); padding: 7px 23px; border-radius: 5px; color: white;">Update Information</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}        
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'Adminlayout.html' %}
+
+{% block title %} Admin Page {% endblock %}
+
+{% block body %}
+    <section class="user">
+        <div class="container">
+            <div class="row">
+                <div class="col md-12">
+                    <div class="jumbtron p-3">
+                        <h1 style="font-size: 22px;"><b>News</b> Details<button type="button" class="btn float-right btn-success mb-4" data-toggle="modal" data-target="#mymodal">Add New News</button></h1>
+                        
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-success alert-dismissable mt-4"  role="alert" style="display: flex; justify-content: space-between; width: 100%;">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        
+                        
+                        <table class="table table-hover table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Text</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                            {% for item in news %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.text }}</td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.date }}</td>
+                                <td>
+                                    <a href="/update/{{item.id}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit{{item.id}}">Edit</a>
+                                    <a href="/delete/{{item.id}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                    <!-- Generating pop up for insert news -->
+                    <div id="mymodal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Add News</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/insert" method="POST">
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <input type="text" class="form-control mb-2" name="title" required="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text</label>
+                                            <input type="text" class="form-control mb-2" name="text" required="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            <input type="text" class="form-control mb-2" name="Category" required="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <input type="date" class="form-control mb-2" name="date" required="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Upload Image</label>
+                                            <input type="file" class="form-control mb-2" name="img" required="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Label</label>
+                                            <input type="text" class="form-control mb-4" name="label" required="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="addNewsBtn" style="background-color: rgb(46, 129, 239); padding: 7px 23px; border-radius: 5px; color: white;"> Add News</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for item in news %}
+                    <!-- Generating pop up for edit news -->
+                    <div id="modalEdit{{item.id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit News</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{url_for('update')}}" method="POST">
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <input type="hidden" name="id" value="{{item.id}}">
+                                            <input type="text" class="form-control mb-2" name="title" required="1" value="{{ item.title }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text</label>
+                                            <input type="text" class="form-control mb-2" name="text" required="1" value="{{ item.text }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            <input type="text" class="form-control mb-2" name="category" required="1" value="{{ item.category }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <input type="date" class="form-control mb-2" name="date" required="1" value="{{ item.date }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Upload New Image</label>
+                                            <input type="file" class="form-control mb-2" name="image_path">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Label</label>
+                                            <input type="text" class="form-control mb-4" name="label" required="1" value="{{ item.label }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="addNewsBtn" style="background-color: rgb(46, 129, 239); padding: 7px 23px; border-radius: 5px; color: white;"> Edit News</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+  
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %} 

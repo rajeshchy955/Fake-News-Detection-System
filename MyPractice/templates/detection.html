@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+
+
+
+{% block title %}Detection{% endblock %}
+
+{% block body %}
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="text-center mb-20">
+      <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Predict the news here</h1>
+      <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">"Trust in Truth: Your Shield Against Fake News"</p>
+      <br>
+      <p><b>{{ prediction_text }}</b></p>
+      {% if show_more_detail %}
+      <a href="#" style="color: red;" id="moreDetail">More detail</a>
+      <div id="detailInfo" style="display: none;"></div> <!-- Hidden initially -->
+      {% endif %}
+    </div>
+    <form class="input-group mb-2 mx-auto" style="width: 60%;" action="/detection" method="POST"> 
+      <input type="text" class="form-control" placeholder="News title" aria-label="News title" id="news" name="news" aria-describedby="button-addon2">
+      <button class="btn btn-outline-danger" type="submit" id="button-addon2">Predict</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  
+  document.getElementById("moreDetail").addEventListener("click", function(event) {
+  event.preventDefault();
+
+  var detailContainer = document.getElementById("detailInfo");
+  
+  // Toggle visibility of detail container
+  if (detailContainer.style.display === "none" || detailContainer.style.display === "") {
+    var xhr = new XMLHttpRequest();
+    var newsTitle = document.getElementById("news").value;
+    xhr.open("GET", "/info?news=" + encodeURIComponent(newsTitle), true);  // Encode the news title
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var info = JSON.parse(xhr.responseText);
+
+        // Populate detail container
+        detailContainer.innerHTML = `
+          <p><b>Title:</b> ${info.title}</p>
+          <p><b>Regular Expression:</b> ${info.regularExp}</p>
+          <p><b>Lower Case:</b> ${info.lowerCase}</p>
+          <p><b>Tokenization:</b> ${info.tekenization.join(', ')}</p>
+          <p><b>Stopwords Removed:</b> ${info.stopwordsRem.join(', ')}</p>
+          <p><b>Preprocessed Data:</b> ${info.preprocess_data.join(', ')}</p>
+          <p><b>Vectorization:</b> ${info.vectorization.join(', ')}</p>
+        `;
+      }
+    };
+    xhr.send();
+
+    // Show the detail container
+    detailContainer.style.display = "block";
+  } else {
+    // Hide the detail container
+    detailContainer.style.display = "none";
+  }
+  });
+
+
+</script>
+  
+
+{% endblock %}

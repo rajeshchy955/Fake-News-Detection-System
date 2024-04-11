@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<div class="main">
+    <div class="con_decision-tree">
+        <h1 style="display: flex; align-items: center; justify-content: center; margin-bottom: 1em">1) The Decision tree of the model will be generated as: </h1>
+        <img src="{{ url_for('static', filename='Images/decision_tree.png') }}" alt="">
+        <h2 style="display: flex; align-items: center; justify-content: center; margin: 2em 0">2) Now using the majority voting of using following set of code the prediction result is calculated for given title: </h2>
+        <div class="maj_voting" style="display: flex; justify-content: center; align-items: center;">
+            <div class="algo" style="background-color: black; color: white;"> 
+                <p>def _most_common_label(self, y):</p> 
+                    <p class="ml-3">     counter = Counter(y)</p>
+                    <p class="ml-3">     most_common = counter.most_common(1)[0][0]</p>
+                    <p class="ml-3">     return most_common</p>
+            </div>
+        </div>
+        <div class="accuracy" >
+            <h2 style="display: flex; justify-content: center; align-items: center; margin: 2em 0">3) The accruacy and confusion matrix for test data is generated as: </h2>
+            <div class="accracy_test" style="display: flex; justify-content: center; align-items: center; margin: 2em 0;">
+                <img src="{{ url_for('static', filename='Images/accuracy_bar_chart_test.png') }}" alt="">
+                <img src="{{ url_for('static', filename='Images/confusion_matrix_heatmap_test.png') }}" alt="">
+            </div>
+            <h2 style="display: flex; justify-content: center; align-items: center; margin: 2em 0">4) The accruacy and confusion matrix for train data is generated as: </h2>
+            <div class="accracy_train" style="display: flex; justify-content: center; align-items: center;">
+                <img src="{{ url_for('static', filename='Images/accuracy_bar_chart_train.png') }}" alt="">
+                <img src="{{ url_for('static', filename='Images/confusion_matrix_heatmap_train.png') }}" alt="">
+            </div>
+            <div class="accracy_train">
+                <img src="{{ url_for('static', filename='Images/classification_report_train.png') }}" alt="">
+                <img src="{{ url_for('static', filename='Images/classification_report_test.png') }}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

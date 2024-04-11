@@ -1,0 +1,47 @@
+.main_containt{
+    background-color: rgb(192, 186, 186);
+}
+
+.admin_profile_top{
+    background: url(./images/background.jpg);
+    height: 20em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-profile{
+    width: 12em;
+    height: 12em;
+    border-radius: 50%;
+}
+
+.admin-position{
+    color: gray;
+}
+
+.admin_profile_bottom{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 40px;
+}
+
+.fun_list{
+    text-align: justify;
+}
+.update-admin{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.update_profile_btn{
+    background-color: rgb(235, 235, 35);
+    padding: 5px 14px;
+    margin-top: 10px;
+    border: none;
+    color: black;
+    border-radius: 20px;
+    cursor: pointer;
+}

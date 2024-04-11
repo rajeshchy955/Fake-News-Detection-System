@@ -1,0 +1,26 @@
+for Decision tree:
+A) Grow tree
+    1) Check the stopping criteria
+        # if we exceed maximum depth chosen
+        # or we only have one label at our current node
+        # or the number of samples is less than the minimum we are allowed to split on
+        # then we are a leaf node
+    2)  Find the best split:
+        # this is the part where we create the randomness in the decision trees
+        # feature indices is just a random numpy array of the range of number of features
+    3) Create child nodes:
+        # get the left and right indices based on our best feature and threshold obtained from step 2
+    
+For RFA:
+    predict:
+    
+        # we will have an array that holds the predictions of all samples for each tree
+        # i.e
+        # predictions = [[0, 1 , 1, 0, 1,...], [1, 1 , 0, 0, 1,...], [1, 0 , 1, 0, 1,...], ...]
+        # the index of each subarray corresponds to the prediction of a certain row of features for each decision tree
+        # in order to achive a majority vote for each sample, so we can have one prediction for every row of features
+        # we will swap the axes in our predictions array, which means every subarray now holds the votes for each row of features
+        # if our predictions was of shape m x n where m is # trees and n # samples
+        # not it will be n x m where each row corresponds to that specific sample
+        # each row now has m elements corresponding to each trees predicition for that specific sample
+        # it is not easy to get the majority vote, we just need to find the most common label among all labels in subarray

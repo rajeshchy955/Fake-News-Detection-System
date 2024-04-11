@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="../static/login.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form  method="post" action="/signup">
+        <h1>Create Account</h1>
+        <p></p>
+        <input type="text" placeholder="Username" name="username" />
+        <input type="email" placeholder="Email"  name="email" />
+        <input type="password" placeholder="Password" name="password" />
+        <button  value="Sign Up" name="signup" type="submit"  class="signIn">  Sign Up</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form  method="POST" action="/login">
+        <h1>Sign In</h1>
+        <div class="input_horizontal">
+          <input type="text" placeholder="Username" name="username"/>
+          <span><i class='bx bxs-user'></i></span>
+        </div>
+        <div class="input_horizontal">
+          <input type="password" placeholder="Password" name="password" />
+          <i class='bx bxs-lock-alt'></i>
+        </div>
+        <span id="error-msg" style="color: red;"></span>
+        <span id="user-exists-msg" style="color: red;"></span>
+        <button  value="Sign In" name="signin" type="submit"  class="signIn">  Sign In</button>
+
+        <!-- <button   value="Login" name="login"  >Sign In</button> -->
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <button class="ghost" id="signUp">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script  >
+
+
+
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () =>{
+        container.classList.remove("right-panel-active");
+    });
+
+  //for login
+  const errorMsg = document.getElementById('error-msg');
+
+    // Check if the URL contains an error parameter (indicating login failure)
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    // Display the error message if there is an error parameter
+    if (error === 'password') {
+        errorMsg.innerText = 'Password doesn\'t match.';
+    } else if (error === 'email') {
+        errorMsg.innerText = 'Email doesn\'t match.';
+    }
+  // Get the error message elements by their IDs
+  const userExistsMsg = document.getElementById('user-exists-msg');
+
+  // Check the condition and update the error messages accordingly
+  if ("{{ error }}" === 'password') {
+      errorMsg.textContent = "Password doesn't match.";
+  } else if ("{{ error }}" === 'email') {
+      errorMsg.textContent = "Email doesn't match.";
+  } else if ("{{ error }}" === 'user_exists') {
+      userExistsMsg.textContent = "Username or email already exists. Do you want to Log In?";
+  }
+
+  </script>
+
+</body>
+</html>
